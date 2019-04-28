@@ -29,6 +29,13 @@ type AlgoCard(number:int, color:Color) =
         
         x.Number.ToString()
 
+let showCards cards =
+    cards |> List.iter(fun x ->
+        Console.Write(x.ToString())
+        Console.ResetColor()
+        Console.Write(" ")
+        )
+
 [<EntryPoint>]
 let main argv = 
     let mutable cards = []
@@ -36,12 +43,17 @@ let main argv =
         cards <- List.append [AlgoCard(i, Color.Black)] cards
         cards <- List.append [AlgoCard(i, Color.White)] cards
 
-    cards |> List.iter(fun x ->
-        Console.Write(x.ToString())
-        Console.ResetColor()
-        Console.Write(" ")
-        )
+    cards |> List.sortBy(fun x -> x.Number + int x.Color) |> showCards
+
+    // cards |> showCards
     
+    // sort用に同数なら白を強い扱いにするコンピレーターを作る
+
+    // 残からランダムドローして、アタック or 下がるか決める
+    // アタックの場合は、何枚目を指定するか決める。（番号だと誤認するので、アルファベット降った方がよい？）
+    // 成功したらオープンにする。そしてもっかいアタックするか決める。
+    // 失敗したら、引いたカードを自分の手札に。
+
     Console.ReadLine() |> ignore
 
     0 // return an integer exit code
